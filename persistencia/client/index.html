@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Negociações</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    
+</head>
+<body class="container">
+    
+    <h1 class="text-center">Negociações</h1>
+    <div id="mensagemView"></div>
+    
+    <form class="form">
+        
+        <div class="form-group">
+            <label for="data">Data</label>
+            <input type="text" id="data" class="form-control" required autofocus/>        
+        </div>    
+        
+        <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required/>
+        </div>
+        
+        <div class="form-group">
+            <label for="valor">Valor</label>
+            <input id="valor" type="number" class="form-control"  min="0.01" step="0.01" value="0.0" required />
+        </div>
+        
+        <button class="btn btn-primary" type="submit">Incluir</button>
+    </form>
+    
+    <div class="text-center">
+        <button id="botao-importa" class="btn btn-primary text-center" type="button">
+            Importar Negociações
+        </button>
+        <button id="botao-apaga" class="btn btn-primary text-center" type="button">
+            Apagar
+        </button>
+    </div> 
+    <br>
+    <br>
+    <div id="negociacoes"></div>
+    
+    
+    <!-- cap 1 <script src="app/index.js"> </script> -->
+    <script src="app/domain/negociacao/Negociacao.js"></script>
+    
+        <!-- var n1 = new Negociacao(new Date, 5, 700)
+        console.log(n1)
+        console.log(n1.volume)
+        console.log(n1.data)
+        console.log(n1.quantidade)
+        console.log(n1.valor)
+
+        n1.quantidade = 10000 //vai ser ignorado pois o metodod get é so para leitura
+
+       console.log(n1.quantidade)
+       
+       console.log('O objet n1 esta congelado ?', Object.isFrozen(n1))
+       //Object.freeze(n1)
+       console.log('O objet n1 esta congelado ?', Object.isFrozen(n1))
+       
+       console.log('tentenado mudar valor de um objeto freezado')
+       n1._quantidade = 1000000
+       console.log(n1.quantidade)
+
+       var outroDia = new Date()
+       outroDia.setDate(11)
+
+       console.log(n1.data)
+
+       console.log('outro teste de imutavel')
+        n1.data.setDate(11)
+       console.log(n1.data) -->
+
+       <script src="app/domain/negociacao/Negociacoes.js"></script>
+       <script src="app/controllers/NegociacaoController.js"></script>
+       <script src="app/ui/converters/DateConverter.js"></script>
+       <script src="app/ui/views/Views.js"></script>
+       <script src="app/ui/views/NegociacoesView.js"></script>
+       <script src="app/ui/models/Mensagem.js"></script>
+       <script src="app/ui/views/MensagemView.js"></script>
+
+       <script src="app/util/ProxyFactory.js"></script>  
+    
+
+    <script src="app/util/Bind.js"> </script>
+    <script	src="app/util/ApplicationException.js"></script>
+    <script src="app/ui/converters/DataInvalidaException.js"></script>
+
+    <script src="app/domain/negociacao/NegociacaoService.js"></script>
+    <script	src="app/util/HttpService.js"></script>
+    <script	src="app/util/ConnectionFactory.js"></script>
+    <script	src="app/domain/negociacao/NegociacaoDao.js"></script>
+    <script	src="app/util/DaoFactory.js"></script>
+    <script src="app/app.js"></script>
+
+    
+ 
+<script>
+            // const	negociacao	=	new	Proxy(new	Negociacao(new Date(),	2,	100),	{
+            //     //este escopo é conhecido com handler
+            //     //leitura
+            //     get: function(target, prop, receiver){
+            //         console.log(`A propriedade "${prop}" caiu na armadilha` )
+
+            //         //teste de return 
+            //         //return 'Anderson B. Silva'
+            //         return target[prop]
+            //     },
+
+            //     //escrita 
+            //     set(target, prop, value, receiver){
+            //         console.log(`${prop} guarda ${target[prop]}, receberá ${value}`)
+
+            //         // target[prop] = value                    
+            //         // return target[prop] == value
+
+            //         // simplificando com Reflect.api
+            //         return	Reflect.set(target,	prop,	value);
+            //     }
+                
+            // });
+            // console.log(negociacao.quantidade)
+            // console.log(negociacao.valor)
+
+            // negociacao._quantidade	=	10
+			// negociacao._valor	=	100;
+
+</script>
+
+<script>
+    // const negociacoes = new Proxy( new Negociacoes(),{
+    //     get(target, prop, value,receiver){
+    //         //console.log(`${prop} guarda ${target[prop]}, receberá ${value}`)
+    //         //return Reflect.set(target, prop, value)
+
+    //         if(typeof(target[prop])	==typeof(Function) && ['adiciona', 'esvazia'].includes(prop)){
+                
+    //             return function() {
+	// 			    console.log(`"${prop}" disparou a armadilha`);
+	// 				target[prop].apply(target,	arguments);
+	// 			}
+
+    //         }else{
+	// 			//	realizando	um	get	padrão
+	// 			return	target[prop];
+	// 		}	
+    //     }
+    // })
+
+    // negociacoes.adiciona(new Negociacao(new Date(), 1, 100))
+</script>
+</body>
+</html>

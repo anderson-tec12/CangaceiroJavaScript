@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IndexedBD</title>
+</head>
+<body>
+    <script>
+        let connection = null
+        //abrindo uma requisição indexedDB
+        const openRequest = indexedDB.open("jscangaceiro", 2)
+        
+        //o numero representa a versao do banco 
+        /*  
+        A trade do indexedDB
+        onupgradeneeded	
+        onsuccess	
+        onerror
+        */
+       
+       openRequest.onupgradeneeded = function (e){
+           console.log('Cria ou altera  um banco ja existente')
+           connection = e.target.result
+           
+           if(connection.objectStoreNames.contains('negociacoes')){
+               //Deletando um novo Store
+               connection.deleteObjectStore('negociacoes')
+            }
+            
+            //craindo uma novo STORE
+            connection.createObjectStore('negociacoes', {autoIncrement: true})
+        }
+        
+        openRequest.onsuccess = function(e){
+            console.log('Conexão obtida com sucesso')
+            connection = e.target.result
+        }
+        
+        openRequest.onerror = function(e){
+            console.log(e.target.error)
+        }
+
+        // function adiciona(){
+        //     const negociacao = new Negociacao(new Date(), 200, 1)
+            
+        //     // array com o nome da store, 2 paremetro o tipo de  transação 	readonly para leitura e readwrite para escrita
+        //     const transaction = connection.transaction(['negociacoes'], 'readwrite')
+
+        //     const store = transaction.objectStore('negociacoes')
+
+        //     const request = store.add(negociacao)
+
+        //     request.onsuccess	=	e	=>	{
+        //         console.log('negociação	salva	com	sucesso');
+		// 	};
+            
+        //     request.onerror	=	e	=>	{
+        //         console.log('Não	foi	possível	savar	a	negociação')
+		// 	}
+        // }
+
+
+        function adiciona(){
+            const negociacao = new Negociacao(new Date(), 200, 1)
+            const request = connection
+                .transaction(['negociacoes'],'readwrite')
+                .objectStore('negociacoes')
+                .add(negociacao)
+            
+            request.onsuccess = e => console.log('Negociação salva com sucesso')
+            request.onerror =  e => console.log('Nao foi possivel salvar a negociação')
+        }
+
+        function listaTodos(){
+            const negociacoes = []
+
+            const cursor = connection
+                .transaction(['negociacoes'], 'readwrite')
+                .objectStore('negociacoes')
+                .openCursor()
+
+            cursor.onsuccess = e =>{
+                const atual = e.target.result 
+                
+                if(atual){
+                    const negociacao = new Negociacao(
+                        atual.value._data,
+                        atual.value._quantidade,
+                        atual.value._valor)
+
+                    negociacoes.push(negociacao)
+                    atual.continue()
+                }else{
+                    console.log(negociacoes)
+                }
+            }
+
+            cursor.onerror = e =>{
+                console.log('Error:' + e.target.name)
+            }
+        }
+        </script>
+        <script	src="client/app/domain/negociacao/Negociacao.js"></script>
+</body>
+</html>
